@@ -7,6 +7,10 @@ document.body.appendChild(canvas);
 
 
 
+var soundEfx = document.getElementById("soundEfx");
+var soundWinner =  "sounds/mixkit-excited-monkey-thumping-chest-97.wav";
+var soundGameOver = "sounds/mixkit-cartoon-creature-pain-scream-101.wav";
+
 // Background image
 var bgReady = false;
 var bgImage = new Image();
@@ -89,8 +93,9 @@ var reset = function () {
 	monster.y = 32 + (Math.random() * (canvas.height - 148));
 
 	if(monstersCaught === 5) {
+		soundEfx.src = soundWinner;
 		alert("you won");
-
+		soundEfx.play();
 	}
 };
 
@@ -131,6 +136,7 @@ var update = function (modifier) {
 		&& hero.y <= (monster.y + 83)
 		&& monster.y <= (hero.y + 52)
 	) {
+		soundEfx.play();
 		++monstersCaught;
 		reset();
 	}
@@ -183,8 +189,8 @@ var main = function () {
 	then = now;
 
 	if (monstersCaught < 5) {
-	//  Request to do this again ASAP
-	requestAnimationFrame(main);
+		//  Request to do this again ASAP
+		requestAnimationFrame(main);
 	}
 };
 
