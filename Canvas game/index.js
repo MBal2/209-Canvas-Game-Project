@@ -17,7 +17,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "images/background.jpg";
+bgImage.src = "images/Jungle.jpeg";
 
 
 // border image L-R
@@ -26,7 +26,7 @@ var blImage = new Image();
 blImage.onload = function () {
 	blReady = true;
 };
-blImage.src = "images/BorderLeft.jpg";
+blImage.src = "images/BorderLeft1.jpg";
 
 // border image T-B
 var btReady = false;
@@ -34,7 +34,7 @@ var btImage = new Image();
 btImage.onload = function () {
 	btReady = true;
 };
-btImage.src = "images/BorderTop.jpg";
+btImage.src = "images/BorderTop1.jpg";
 
 
 
@@ -46,7 +46,7 @@ heroImage.onload = function () {
 };
 //heroImage.src = "images/hero.png";
 
-heroImage.src = "images/1shipsprite.png";
+heroImage.src = "images/Monkey.png";
 
 // Monster image
 var monsterReady = false;
@@ -55,7 +55,7 @@ monsterImage.onload = function () {
 	monsterReady = true;
 };
 //monsterImage.src = "images/monster.png";
-monsterImage.src = "images/spacestation.png";
+monsterImage.src = "images/banana.png";
 
 // Game objects
 var hero = {
