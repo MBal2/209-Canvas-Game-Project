@@ -5,9 +5,19 @@ canvas.width = 1000;
 canvas.height = 1000;
 document.body.appendChild(canvas);
 
+let chessBoard = [
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	['x','x','x','x','x','x','x',],
+	];
 
-
-var soundEfx = document.getElementById("soundEfx");
+var soundEfx = document.getElementById("soundEfx"); //soundfx
 var soundWinner =  "sounds/mixkit-excited-monkey-thumping-chest-97.wav";
 var soundGameOver = "sounds/mixkit-cartoon-creature-pain-scream-101.wav";
 
@@ -57,6 +67,13 @@ monsterImage.onload = function () {
 //monsterImage.src = "images/monster.png";
 monsterImage.src = "images/banana.png";
 
+var blackholeReady = false;
+var blockholeImage = new Image();
+blockholeImage.onload = function () {
+	blackholeReady = true;
+};
+blockholeImage.src = "images/poacher.png";
+
 // Game objects
 var hero = {
 	speed: 256, // movement in pixels per second
@@ -67,7 +84,23 @@ var monster = {
 	x: 0,
 	y: 0
 };
+
+var black1 = {
+	x: 0,
+	y: 0
+};
+
+var black2 = {
+	x: 0,
+	y: 0
+};
+
+var black3 = {
+	x: 0,
+	y: 0
+};
 var monstersCaught = 0;
+let died = false;
 
 // Handle keyboard controls
 var keysDown = {}; // object were we add up to 4 properties when keys go down
@@ -85,12 +118,18 @@ addEventListener("keyup", function (e) {
 
 // Reset the game when the player catches a monster
 var reset = function () {
-	hero.x = canvas.width / 2;
-	hero.y = canvas.height / 2;
+	// hero.x = canvas.width / 2;
+	// hero.y = canvas.height / 2;
 
 	//Place the monster somewhere on the screen randomly
-	monster.x = 32 + (Math.random() * (canvas.width - 150));
-	monster.y = 32 + (Math.random() * (canvas.height - 148));
+	// monster.x = 32 + (Math.random() * (canvas.width - 150));
+	// monster.y = 32 + (Math.random() * (canvas.height - 148));
+
+	placeItem(hero);
+	placeItem(monster);
+	placeItem(black1);
+	placeItem(black2);
+	placeItem(black3);
 
 	if(monstersCaught === 5) {
 		soundEfx.src = soundWinner;
@@ -99,6 +138,30 @@ var reset = function () {
 	}
 };
 
+let placeItem = function (character)
+{
+	let X = 5;
+	let Y = 6;
+	let success = false;
+	while(!success) {
+		X = Math.floor( Math.random( ) * 9 );
+		Y = Math.floor( Math.random( ) * 9 );
+		if( chessBoard[X][Y] === 'x' ) {
+			success = true;
+		}
+	}
+	chessBoard[X][Y] = 'O';
+	character.x = (X*100) + 32;
+	character.y = (Y*100) + 32;
+}
+
+var gameOver=function(){
+	died = true;
+	soundEfx.src = soundGameOver;
+	soundEfx.play();
+	alert("You died");
+
+};
 // Update game objects
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up
@@ -140,8 +203,34 @@ var update = function (modifier) {
 		++monstersCaught;
 		reset();
 	}
-  };
 
+  if(
+		hero.x+5 <= (black1.x + 40)
+		&& black1.x <= (hero.x + 30)
+		&& hero.y <= (black1.y +40)
+		&& black1.y<= (hero.y+ 30)
+	) {
+		gameOver()
+	}
+
+  if(
+		hero.x+5 <= (black2.x + 40)
+		&& black2.x <= (hero.x + 30)
+		&& hero.y <= (black2.y +40)
+		&& black2.y<= (hero.y+ 30)
+	) {
+		gameOver()
+	}
+
+	if(
+		hero.x+5 <= (black3.x + 40)
+		&& black3.x <= (hero.x + 30)
+		&& hero.y <= (black3.y +40)
+		&& black3.y<= (hero.y+ 30)
+	){
+		gameOver()
+	}
+};
 // Draw everything
 var render = function () {
 	if (bgReady) {
@@ -167,6 +256,12 @@ var render = function () {
 		ctx.drawImage(monsterImage, monster.x, monster.y);
 	}
 
+	if (blackholeReady) {
+		ctx.drawImage(blockholeImage, black1.x, black1.y);
+		ctx.drawImage(blockholeImage, black2.x, black2.y);
+		ctx.drawImage(blockholeImage, black3.x, black3.y);
+	}
+
 	// Score
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
@@ -176,7 +271,7 @@ var render = function () {
 		ctx.fillText("YOU WON! ", 32, 32);
 	}
 	else {
-	ctx.fillText("Space Stations Destroyed: " + monstersCaught, 32, 32);
+	ctx.fillText("Bananas Collected: " + monstersCaught, 32, 32);
 	}
 };
 
@@ -188,7 +283,7 @@ var main = function () {
 	render();
 	then = now;
 
-	if (monstersCaught < 5) {
+	if (monstersCaught < 5 && died == false) {
 		//  Request to do this again ASAP
 		requestAnimationFrame(main);
 	}
