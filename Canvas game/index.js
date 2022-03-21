@@ -6,19 +6,19 @@ canvas.height = 1000;
 document.body.appendChild(canvas);
 
 let chessBoard = [
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	['x','x','x','x','x','x','x',],
-	];
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+	['x', 'x', 'x', 'x', 'x', 'x', 'x',],
+];
 
 var soundEfx = document.getElementById("soundEfx"); //soundfx
-var soundWinner =  "sounds/mixkit-excited-monkey-thumping-chest-97.wav";
+var soundWinner = "sounds/mixkit-excited-monkey-thumping-chest-97.wav";
 var soundGameOver = "sounds/mixkit-cartoon-creature-pain-scream-101.wav";
 
 // Background image
@@ -104,7 +104,7 @@ let died = false;
 
 // Handle keyboard controls
 var keysDown = {}; // object were we add up to 4 properties when keys go down
-                // and then delete them when the key goes up
+// and then delete them when the key goes up
 
 addEventListener("keydown", function (e) {
 	console.log(e.keyCode + " down")
@@ -131,31 +131,30 @@ var reset = function () {
 	placeItem(black2);
 	placeItem(black3);
 
-	if(monstersCaught === 5) {
+	if (monstersCaught === 5) {
 		soundEfx.src = soundWinner;
 		alert("you won");
 		soundEfx.play();
 	}
 };
 
-let placeItem = function (character)
-{
+let placeItem = function (character) {
 	let X = 5;
 	let Y = 6;
 	let success = false;
-	while(!success) {
-		X = Math.floor( Math.random( ) * 9 );
-		Y = Math.floor( Math.random( ) * 9 );
-		if( chessBoard[X][Y] === 'x' ) {
+	while (!success) {
+		X = Math.floor(Math.random() * 9);
+		Y = Math.floor(Math.random() * 9);
+		if (chessBoard[X][Y] === 'x') {
 			success = true;
 		}
 	}
 	chessBoard[X][Y] = 'O';
-	character.x = (X*100) + 32;
-	character.y = (Y*100) + 32;
+	character.x = (X * 100) + 32;
+	character.y = (Y * 100) + 32;
 }
 
-var gameOver=function(){
+var gameOver = function () {
 	died = true;
 	soundEfx.src = soundGameOver;
 	soundEfx.play();
@@ -166,27 +165,27 @@ var gameOver=function(){
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up
 		hero.y -= hero.speed * modifier;
-		if (hero.y < ( 32) ) {
+		if (hero.y < (32)) {
 			hero.y = 32;
 		}
 
 	}
 	if (40 in keysDown) { // Player holding down
 		hero.y += hero.speed * modifier;
-		if (hero.y > (1000 - ( 81) )) {
-			hero.y = 1000 	 -81;
+		if (hero.y > (1000 - (81))) {
+			hero.y = 1000 - 81;
 		}
 	}
 	if (37 in keysDown) { // Player holding left
 		hero.x -= hero.speed * modifier;
-		if (hero.x < ( 21) ) {
+		if (hero.x < (21)) {
 			hero.x = 21;
 		}
 	}
 	if (39 in keysDown) { // Player holding right
 		hero.x += hero.speed * modifier;
-		if (hero.x > ( 1000 - (32 +55 ) ) ) {
-			hero.x = 1000 - (32 +55 );
+		if (hero.x > (1000 - (32 + 55))) {
+			hero.x = 1000 - (32 + 55);
 		}
 	}
 
@@ -194,7 +193,7 @@ var update = function (modifier) {
 	//55 w  60 h
 	// station 83 w 81 h
 	if (
-		hero.x+5 <= (monster.x + 81)
+		hero.x + 5 <= (monster.x + 81)
 		&& monster.x <= (hero.x + 55)
 		&& hero.y <= (monster.y + 83)
 		&& monster.y <= (hero.y + 52)
@@ -204,30 +203,30 @@ var update = function (modifier) {
 		reset();
 	}
 
-  if(
-		hero.x+5 <= (black1.x + 40)
+	if (
+		hero.x + 5 <= (black1.x + 40)
 		&& black1.x <= (hero.x + 30)
-		&& hero.y <= (black1.y +40)
-		&& black1.y<= (hero.y+ 30)
+		&& hero.y <= (black1.y + 40)
+		&& black1.y <= (hero.y + 30)
 	) {
 		gameOver()
 	}
 
-  if(
-		hero.x+5 <= (black2.x + 40)
+	if (
+		hero.x + 5 <= (black2.x + 40)
 		&& black2.x <= (hero.x + 30)
-		&& hero.y <= (black2.y +40)
-		&& black2.y<= (hero.y+ 30)
+		&& hero.y <= (black2.y + 40)
+		&& black2.y <= (hero.y + 30)
 	) {
 		gameOver()
 	}
 
-	if(
-		hero.x+5 <= (black3.x + 40)
+	if (
+		hero.x + 5 <= (black3.x + 40)
 		&& black3.x <= (hero.x + 30)
-		&& hero.y <= (black3.y +40)
-		&& black3.y<= (hero.y+ 30)
-	){
+		&& hero.y <= (black3.y + 40)
+		&& black3.y <= (hero.y + 30)
+	) {
 		gameOver()
 	}
 };
@@ -241,11 +240,11 @@ var render = function () {
 		ctx.drawImage(btImage, 0, 0);
 		ctx.drawImage(btImage, 0, 1000 - 32);
 	}
-	
+
 	if (blReady) {
 		ctx.drawImage(blImage, 0, 0);
-		ctx.drawImage(blImage, 1000-32, 0);
-	} 
+		ctx.drawImage(blImage, 1000 - 32, 0);
+	}
 
 
 	if (heroReady) {
@@ -271,7 +270,7 @@ var render = function () {
 		ctx.fillText("YOU WON! ", 32, 32);
 	}
 	else {
-	ctx.fillText("Bananas Collected: " + monstersCaught, 32, 32);
+		ctx.fillText("Bananas Collected: " + monstersCaught, 32, 32);
 	}
 };
 
