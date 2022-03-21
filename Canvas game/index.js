@@ -67,6 +67,16 @@ monsterImage.onload = function () {
 //monsterImage.src = "images/monster.png";
 monsterImage.src = "images/banana.png";
 
+// Monster image
+var monsterReady1 = false;
+var monsterImage1 = new Image();
+monsterImage1.onload = function () {
+	monsterReady1 = true;
+};
+//monsterImage.src = "images/monster.png";
+monsterImage1.src = "images/watermellon.png";
+
+//blackhole
 var blackholeReady = false;
 var blockholeImage = new Image();
 blockholeImage.onload = function () {
@@ -81,6 +91,10 @@ var hero = {
 	y: 0
 };
 var monster = {
+	x: 0,
+	y: 0
+};
+var monster1 = {
 	x: 0,
 	y: 0
 };
@@ -127,6 +141,7 @@ var reset = function () {
 
 	placeItem(hero);
 	placeItem(monster);
+	placeItem(monster1);
 	placeItem(black1);
 	placeItem(black2);
 	placeItem(black3);
@@ -202,6 +217,16 @@ var update = function (modifier) {
 		++monstersCaught;
 		reset();
 	}
+	if (
+		hero.x + 5 <= (monster1.x + 81)
+		&& monster1.x <= (hero.x + 55)
+		&& hero.y <= (monster1.y + 83)
+		&& monster1.y <= (hero.y + 52)
+	) {
+		soundEfx.play();
+		++monstersCaught;
+		reset();
+	}
 
 	if (
 		hero.x + 5 <= (black1.x + 40)
@@ -255,6 +280,10 @@ var render = function () {
 		ctx.drawImage(monsterImage, monster.x, monster.y);
 	}
 
+	if (monsterReady1) {
+		ctx.drawImage(monsterImage1, monster1.x, monster1.y);
+	}
+
 	if (blackholeReady) {
 		ctx.drawImage(blockholeImage, black1.x, black1.y);
 		ctx.drawImage(blockholeImage, black2.x, black2.y);
@@ -270,7 +299,7 @@ var render = function () {
 		ctx.fillText("YOU WON! ", 32, 32);
 	}
 	else {
-		ctx.fillText("Bananas Collected: " + monstersCaught, 32, 32);
+		ctx.fillText("Fruits Collected: " + monstersCaught, 32, 32);
 	}
 };
 
